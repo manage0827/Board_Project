@@ -7,21 +7,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 목록<title>
+
 <%@ include file="header.jsp" %> 
 <script>
 	$(document).ready(function(){
 		$("#btnWrite").click(function(){
 			//페이지 주소 변경(이동)
-			location.href = "${path}/board/write.do";
+			location.href = "${path}/write";
 		});
 	});
 </script>
 </head>
 <body>
 <%@ include file="menu.jsp" %> 
-<h2>게시글 목록</h2>
-<button type="button" id="btnWrite">글쓰기</button>
-<table border="1" Width="600px">
+<h1>게시글 목록</h1>
+<a href="write" textalign="left"><p>글쓰기</p></a>
+<table border="1" width="100%">
+
 	<tr>
 		<th>번호</th>
 		<th>제목</th>
@@ -33,7 +35,7 @@
 	<c:forEach var="row" items="${list}">
 	<tr>
 		<td>${row.bno}</td>
-		<td><a href="${path}/board/view.do?bno=${row.bno}">${row.title}</a></td>
+		<td>${row.title}</td>
 		<td>${row.writer}</td>
 		<td>
 			<!--  원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->

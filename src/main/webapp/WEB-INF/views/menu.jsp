@@ -1,9 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="welcome.jsp">게시판</a>
-			<a class="navbar-brand" href="products.jsp">묻고 답하기</a>
-			<a class="navbar-brand" href="addProduct.jsp">문의 사항</a>
+			<a class="navbar-brand" >게시판</a>
 		</div>
 	</div>
 </nav>
+</body>
+</html>

@@ -5,38 +5,37 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.board.dao.BoardDAO;
+import com.model.board.dao.BoardDAOImp1;
 import com.model.board.dto.BoardVO;
 
 @Service
 public class BoardServiceImp1 implements BoardService {
 
-	@Inject
-	BoardDAO boardDao;
+	@Autowired
+	BoardDAOImp1 boardDao;
 	
 	// 01. 게시글 쓰기
 	@Override
 	public void create(BoardVO vo) throws Exception {
-		String title = vo.getTitle();
-		String content = vo.getContent();
-		String writer = vo.getWriter();
-		//*태그문자 처리 (< ==>&lt; > ==> &gt;)
-		// replace(A, B) A를 B로 변경
-		title = title.replace("<", "&lt;");
-		title = title.replace("<", "&gt;");
-		writer = writer.replace("<", "&lt;");
-		writer = writer.replace("<", "&gt;");
-		// *공백문자 처리
-		title = title.replace("  ", "&nbsp;&nbsp;");
-		writer = writer.replace("  ", "&nbsp;&nbsp;");
-		// *줄바꿈 문자처리
-		content = content.replace("\n", "<br>");
-		vo.setTitle(title);
-		vo.setContent(content);
-		vo.setWriter(writer);
+		
+		/*
+		 * String title = vo.getTitle(); String content = vo.getContent(); String writer
+		 * = vo.getWriter(); //*태그문자 처리 (< ==>&lt; > ==> &gt;) // replace(A, B) A를 B로 변경
+		 * title = title.replace("<", "&lt;"); title = title.replace("<", "&gt;");
+		 * writer = writer.replace("<", "&lt;"); writer = writer.replace("<", "&gt;");
+		 * // *공백문자 처리 title = title.replace("  ", "&nbsp;&nbsp;"); writer =
+		 * writer.replace("  ", "&nbsp;&nbsp;"); // *줄바꿈 문자처리 content =
+		 * content.replace("\n", "<br>"); vo.setTitle(title); vo.setContent(content);
+		 * vo.setWriter(writer); boardDao.create(vo);
+		 */
+		 
+		
 		boardDao.create(vo);
+		
 	}
 	
 	// 02. 게시글 상세보기
