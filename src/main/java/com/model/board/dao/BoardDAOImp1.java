@@ -19,20 +19,17 @@ public class BoardDAOImp1 implements BoardDAO{
 	
 	
 	private Logger log = LoggerFactory.getLogger(BoardDAOImp1.class);
-	
 	@Autowired
 	SqlSession sqlSession;
 	
 	// 1. 게시글 작성
 	@Override
 	public void create(BoardVO vo) throws Exception {
-
 		sqlSession.insert("com.model.board.dao.BoardDAO.insertTest", vo);
 	}
 	// 2. 게시글 상세보기
 	@Override
 	public BoardVO read(int bno) throws Exception {
-
 		return sqlSession.selectOne("view", bno);
 	}
 	// 3. 게시글 수정
@@ -52,7 +49,7 @@ public class BoardDAOImp1 implements BoardDAO{
 	// 5. 게시글 전체 목록
 	@Override
 	public List<BoardVO> listAll() throws Exception {
-		return sqlSession.selectList("board.listAll");
+		return sqlSession.selectList("listAll");
 	// BoardDAO dao = sqlSession.getMapper(BoardDAO.class);
 				 
 	}

@@ -5,6 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 목록<title>
 
@@ -22,8 +24,8 @@
 <%@ include file="menu.jsp" %> 
 <h1>게시글 목록</h1>
 <a href="write" textalign="left"><p>글쓰기</p></a>
-<table border="1" width="100%">
-
+<table border="1" width="100%" >
+	
 	<tr>
 		<th>번호</th>
 		<th>제목</th>
@@ -32,7 +34,7 @@
 		<th>조회수</th>
 	</tr>
 	
-	<c:forEach var="row" items="${list}">
+	<c:forEach var="row" items="${list }">
 	<tr>
 		<td>${row.bno}</td>
 		<td>${row.title}</td>
@@ -44,7 +46,7 @@
 		<td>${row.viewcnt}</td>
 	</tr>
 	</c:forEach>
-	
+
 </table>
 </body>
 </html>

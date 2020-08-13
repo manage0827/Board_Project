@@ -21,7 +21,6 @@ public class BoardServiceImp1 implements BoardService {
 	// 01. 게시글 쓰기
 	@Override
 	public void create(BoardVO vo) throws Exception {
-		
 		/*
 		 * String title = vo.getTitle(); String content = vo.getContent(); String writer
 		 * = vo.getWriter(); //*태그문자 처리 (< ==>&lt; > ==> &gt;) // replace(A, B) A를 B로 변경
@@ -32,7 +31,6 @@ public class BoardServiceImp1 implements BoardService {
 		 * content.replace("\n", "<br>"); vo.setTitle(title); vo.setContent(content);
 		 * vo.setWriter(writer); boardDao.create(vo);
 		 */
-		 
 		
 		boardDao.create(vo);
 		
@@ -65,7 +63,7 @@ public class BoardServiceImp1 implements BoardService {
 	@Override
 	public void increaseViewcnt(int bno, HttpSession session) throws Exception {
 		long update_time = 0;
-		// 세션에 젖아된 조회시간 검색
+		// 세션에 저장된 조회시간 검색
 		// 최초로 조회할 경우 세션에 저장된 값이 없기 때문에 if 문은 실행 X
 		if(session.getAttribute("update_time_"+bno) != null) {
 								//세션에서 읽어오기

@@ -63,7 +63,7 @@
 		<div class="event" style="width:250px" ><a href="#">이벤트창</a></div>		
 		
 		<!--로고-->
-		<a href="main.jsp"><img src="./image_main/logo.png" style="width:300px" ></a>
+		<a href="main.jsp"><!-- <img src="./image_main/logo.png" style="width:300px" > --></a>
 		
 		<div class="member" style="width:250px">	
 			

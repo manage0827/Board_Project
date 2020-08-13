@@ -22,7 +22,8 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.controller.board" />
-	
+	<resources location="/resources/js/" mapping="/js/**" />
+	<resources location="/resources/css/" mapping="/css/**" />
 	
 	
 </beans:beans>

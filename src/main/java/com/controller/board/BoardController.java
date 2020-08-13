@@ -28,7 +28,7 @@ public class BoardController {
 
 	@RequestMapping("/")
 	public String home() {
-		return "list";
+		return "redirect:list";
 	}
 
 	// 01.게시글 목록
@@ -58,7 +58,7 @@ public class BoardController {
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insert(@ModelAttribute BoardVO vo) throws Exception {
 		boardService.create(vo);
-		return "list";
+		return "redirect:list";
 	}
 
 	// 03. 게시글 상세내용 조회, 게시글 조회수 증가 처리
