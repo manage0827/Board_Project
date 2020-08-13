@@ -35,15 +35,12 @@ public class BoardDAOImp1 implements BoardDAO{
 	// 3. 게시글 수정
 	@Override
 	public void update(BoardVO vo) throws Exception {
-	
-		sqlSession.update("board.updateArticle", vo);
-
-		
+		sqlSession.update("updateArticle", vo);
 	}
 	// 4. 게시글 삭제
 	@Override
 	public void delete(int bno) throws Exception {
-		sqlSession.delete("board.deleteArticle", bno);
+		sqlSession.delete("deleteArticle", bno);
 		
 	}
 	// 5. 게시글 전체 목록
@@ -56,7 +53,7 @@ public class BoardDAOImp1 implements BoardDAO{
 	// 6. 게시글 조회수 증가
 	@Override
 	public void increaseViewcnt(int bno) throws Exception {
-		sqlSession.update("board.increaseViewcnt", bno);
+		sqlSession.update("increaseViewcnt", bno);
 		
 	}
 	

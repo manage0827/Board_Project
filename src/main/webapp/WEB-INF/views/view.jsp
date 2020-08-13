@@ -3,51 +3,39 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 작성</title>
 <%-- <%@ include file="../include/header.jsp" %> --%>
-<script>
-	$(document).ready(function(){
-		$("btnDelete").click(function(){
-			if(confirm("삭제하시겠습니까?")){
-				document.form1.action = "${path}/board/delete.do";
-				document.form1.submit();
-		}
-	});
-		
-	$("btnUpdate").click(function(){
-		//var title = document.form1.title.value; ==> name속성으로 처리할 경우
-		//var content = doucment.form1.content.value;
-		//var writer = document.form1.writer.value;
-		var title = $("title").val();
-		var content = $("#content").val();
-		var writer = $("#writer").val();
-		if(title == ""){
-			alert("제목을 입력하세요");
-			document.form1.title.focus();
-			return;
-		}
-		if(content == ""){
-			alert("내용을 입력하세요");
-			document.form1.content.focus();
-			return ;
-		}
-		if(writer == ""){
-			alert("이름을 입력하세요");
-			document.form1.writer.focus();
-			return;
-		}
-		document.form1.action="${path}/board/update.do"
-		//폼에 입력한 데이터를 서버로 전송
-		document.form1.submit();
-	});
+<script >
+
+	 $(document).ready(function(){
+		 var formObj = $("form");
+		 
+		 $('button').on("click", function(e){
+			 
+			 e.preventDefault();
+			 
+			 var operation = $(this).data("oper");
+			 
+			 console.log(operation);
+			 
+			 if(operation === 'remove'){
+				 formObj.attr("action", "delete");
+			 }else if(operation === 'list'){
+				 //move to list
+				 self.location = "list";
+				 return ;
+			 }
+			 formObj.submit();
+		 });
 	});
 </script>
 </head>
 <body>
 <%@ include file="menu.jsp" %>
 <h2>게시글 보기</h2>
-<form name="form1" method="post">
+<form name="form1" method="post" action="update">
 	<div>		<!-- 원하는 날짜형식으로 출력하기 위해 fmt 태그사용 -->
 		작성일자 : <fmt:formatDate value="${dto.regdate}" pattern="yyyy-MM-dd a HH:mm:ss" />
 				<!-- 날짜 형식 => yyyy 4자리 연도, MM월, dd 일 , a 오전/오후 , HH 24시간 hh 12시간, mm 분, ss 초 -->
@@ -69,9 +57,12 @@
 	</div>
 	<div style="width:650px; text-align:center;">
 		<!-- 게시물번호를 hidden 으로 처리 -->
-		<input type="hidden" name="bno" value="${dto.bno}">
-		<button type="button" id="btnUpdate">수정</button>
-		<button type="button" id="btnDelete">삭제</button>
+		 <input type="hidden" name="bno" value="${dto.bno}">
+		<!-- <input type="submit" id="btnUpdate" value="수정" /> -->
+		<button type="submit" data-oper='modify' class="btn btn-default">수정</button>
+		<button type="submit" data-oper='remove' class="btn btn-danger">삭제</button>
+		<button type="submit" data-oper='list' class="btn btn-default">목록으로</button>
+		
 	</div>
 </form>
 </body>

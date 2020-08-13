@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.model.board.dao.BoardDAOImp1;
 import com.model.board.dto.BoardVO;
 import com.service.board.BoardService;
 import com.service.board.BoardServiceImp1;
 
 @Controller // 현재클래스를 컨트롤러 bean으로 등록
 public class BoardController {
-
+	private Logger log = LoggerFactory.getLogger(BoardController.class);
 	// 의존관계 주입 => BoardServiceImp1 생성
 	// IOC 의존관계 역전
 	@Autowired
@@ -41,6 +45,7 @@ public class BoardController {
 	 */
 	@RequestMapping(value="/list")
 	public String list(Model model) throws Exception {
+		log.info(11+"");
 		List<BoardVO> list = (List<BoardVO>)boardService.listAll();
 		model.addAttribute("list", list);
 		return "list"; // list.jsp로 List가 전달된다.
@@ -64,10 +69,11 @@ public class BoardController {
 	// 03. 게시글 상세내용 조회, 게시글 조회수 증가 처리
 	// @RequestParam : get/post 방식으로 전달된 변수 1개
 	// HttpSession 세션객체
-	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public ModelAndView view(@RequestParam int bno, HttpSession session) throws Exception {
-		// 조회수 증가처리
-		boardService.increaseViewcnt(bno, session);
+	@RequestMapping(value = "/view")
+	public ModelAndView view(int bno) throws Exception {
+		log.info(bno+"");
+		
+		boardService.increaseViewcnt(bno); 
 		// 모델(데이터)+뷰(화면)를 함께 전달하는 객체
 		ModelAndView mav = new ModelAndView();
 		// 뷰의 이름
@@ -82,13 +88,13 @@ public class BoardController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(@ModelAttribute BoardVO vo) throws Exception {
 		boardService.update(vo);
-		return "list";
+		return "redirect:list";
 	}
 
 	// 05. 게시글 삭제
-	@RequestMapping("delete")
-	public String delete(@RequestParam int bno) throws Exception {
-		boardService.delete(bno);
+	@RequestMapping(value="/delete", method= RequestMethod.POST)
+	public String delete(@ModelAttribute BoardVO vo) throws Exception {
+		boardService.delete(vo.getBno());
 		return "list";
 	}
 

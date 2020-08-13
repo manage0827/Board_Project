@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 목록<title>
@@ -27,9 +28,9 @@
 <table border="1" width="100%" >
 	
 	<tr>
-		<th>번호</th>
-		<th>제목</th>
-		<th>이름</th>
+		<th>NO</th>
+		<th>글 제목</th>
+		<th>작성자</th>
 		<th>작성일</th>
 		<th>조회수</th>
 	</tr>
@@ -37,7 +38,7 @@
 	<c:forEach var="row" items="${list }">
 	<tr>
 		<td>${row.bno}</td>
-		<td>${row.title}</td>
+		<td><a href="view?bno=${row.bno}">${row.title}</a></td>
 		<td>${row.writer}</td>
 		<td>
 			<!--  원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->
