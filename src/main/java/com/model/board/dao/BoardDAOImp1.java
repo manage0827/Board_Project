@@ -1,6 +1,8 @@
 package com.model.board.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -45,8 +47,12 @@ public class BoardDAOImp1 implements BoardDAO{
 	}
 	// 5. 게시글 전체 목록
 	@Override
-	public List<BoardVO> listAll() throws Exception {
-		return sqlSession.selectList("listAll");
+	public List<BoardVO> listAll(String searchOption, String keyword) throws Exception {
+		// 검색 옵션 , 키워드 맵에 저장
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		return sqlSession.selectList("listAll",map);
 	// BoardDAO dao = sqlSession.getMapper(BoardDAO.class);
 				 
 	}
@@ -55,6 +61,15 @@ public class BoardDAOImp1 implements BoardDAO{
 	public void increaseViewcnt(int bno) throws Exception {
 		sqlSession.update("increaseViewcnt", bno);
 		
+	}
+	// 7. 게시글 레코드 갯수
+	@Override
+	public int countArticle(String searchOption, String keyword) throws Exception {
+		// 검색 옵션, 키워드 맵에 저장
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		return sqlSession.selectOne("countArticle",map);
 	}
 	
 

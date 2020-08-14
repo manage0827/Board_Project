@@ -1,6 +1,8 @@
 package com.controller.board;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -44,10 +46,17 @@ public class BoardController {
 	 * List가 전달된다. }
 	 */
 	@RequestMapping(value="/list")
-	public String list(Model model) throws Exception {
-		log.info(11+"");
-		List<BoardVO> list = (List<BoardVO>)boardService.listAll();
+	public String list(Model model, @RequestParam(defaultValue="title") String searchOption,
+						@RequestParam(defaultValue="") String keyword) throws Exception {
+		List<BoardVO> list = (List<BoardVO>)boardService.listAll(searchOption, keyword);
 		model.addAttribute("list", list);
+		int count = boardService.countArticle(searchOption, keyword);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list); //list
+		map.put("count", count); //레코드의 갯수
+		map.put("searchOption", searchOption); // 검색옵션
+		map.put("keyword", keyword); //검색키워드
+		model.addAttribute("map", map); // 맵에 저장된 데이터를 저장
 		return "list"; // list.jsp로 List가 전달된다.
 	}
 
@@ -71,8 +80,6 @@ public class BoardController {
 	// HttpSession 세션객체
 	@RequestMapping(value = "/view")
 	public ModelAndView view(int bno) throws Exception {
-		log.info(bno+"");
-		
 		boardService.increaseViewcnt(bno); 
 		// 모델(데이터)+뷰(화면)를 함께 전달하는 객체
 		ModelAndView mav = new ModelAndView();
@@ -97,5 +104,7 @@ public class BoardController {
 		boardService.delete(vo.getBno());
 		return "list";
 	}
+	
+	
 
 }

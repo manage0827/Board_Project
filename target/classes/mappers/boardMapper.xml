@@ -3,11 +3,37 @@
 <mapper namespace="com.model.board.dao.BoardDAO">  <!-- com.model.board.dao.BoardDAO -->
 
 
- 	 <!--  01. 게시글 전체목록 조회 -->
+ 	 <!--  01. 게시글 전체목록 조회 및 검색 조회까지-->
 	<select id="listAll" resultType="BoardVO">
 		<!-- SELECT * FROM tbl_board -->
-		select bno, title,content, writer, regdate, viewcnt  from tbl_board order by bno desc
+		select bno, title,content, writer, regdate, viewcnt  from tbl_board 
+		<!-- where 절을 include 태그로 삽입 -->
+		<include refid="search"></include>
+		order by bno desc, regdate desc
 	</select>
+	<!--  01_02. 게시글 레코드 갯수 -->
+	<select id="countArticle" resultType="int">
+		select count(*) from tbl_board
+		<!-- where 절을 include 태그로 삽입 -->
+		<include refid="search"></include>
+	</select>
+	
+	<!-- sql code 조각 -->
+	<!-- 반복되는 sql의 일부를 sql 태그를 이용하여 따로 뺴둘 수 있다 -->
+	<sql id="search">
+		<choose>
+			<!-- 검색옵션이 전체 검색일 경우 -->
+			<when test="searchOption == 'all'">
+				where writer like '%'||#{keyword}||'%'
+				or content like '%'||#{keyword}||'%'
+				or title like '%'||#{keyword}||'%'
+			</when>
+			<!-- 전체 검색이 아닐 경우 -->
+			<otherwise>
+				where ${searchOption} like '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+	</sql>
 	<!-- 02. 게시글 작성 -->
 	<insert id="insertTest" parameterType="com.model.board.dto.BoardVO">
 		insert into tbl_board(bno,title,content,writer) values(tbl_board_seq.NEXTVAL,#{title},#{content},#{writer})
@@ -35,4 +61,5 @@
 		DELETE FROM tbl_board
 		WHERE bno = #{bno}
 	</delete> 
+	<!-- 07.  -->
 </mapper>

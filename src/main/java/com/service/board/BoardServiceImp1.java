@@ -21,19 +21,7 @@ public class BoardServiceImp1 implements BoardService {
 	// 01. 게시글 쓰기
 	@Override
 	public void create(BoardVO vo) throws Exception {
-		/*
-		 * String title = vo.getTitle(); String content = vo.getContent(); String writer
-		 * = vo.getWriter(); //*태그문자 처리 (< ==>&lt; > ==> &gt;) // replace(A, B) A를 B로 변경
-		 * title = title.replace("<", "&lt;"); title = title.replace("<", "&gt;");
-		 * writer = writer.replace("<", "&lt;"); writer = writer.replace("<", "&gt;");
-		 * // *공백문자 처리 title = title.replace("  ", "&nbsp;&nbsp;"); writer =
-		 * writer.replace("  ", "&nbsp;&nbsp;"); // *줄바꿈 문자처리 content =
-		 * content.replace("\n", "<br>"); vo.setTitle(title); vo.setContent(content);
-		 * vo.setWriter(writer); boardDao.create(vo);
-		 */
-		
 		boardDao.create(vo);
-		
 	}
 	
 	// 02. 게시글 상세보기
@@ -56,14 +44,18 @@ public class BoardServiceImp1 implements BoardService {
 	}
 	// 05. 게시글 전체 목록
 	@Override
-	public List<BoardVO> listAll() throws Exception {
-		return boardDao.listAll();
+	public List<BoardVO> listAll(String searchOption, String keyword) throws Exception {
+		return boardDao.listAll(searchOption, keyword);
 	}
 	// 06. 게시글 조회수 증가
 	@Override
 	public void increaseViewcnt(int bno) throws Exception {
-		boardDao.increaseViewcnt(bno);
-		
+		boardDao.increaseViewcnt(bno);	
+	}
+	// 07. 게시글 레코드 갯수 board.Dao.countArticle 메서드
+	@Override
+	public int countArticle(String searchOption, String keyword) throws Exception {
+		return boardDao.countArticle(searchOption, keyword);
 	}
 
 }
