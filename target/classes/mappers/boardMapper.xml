@@ -5,15 +5,16 @@
 
  	 <!--  01. 게시글 전체목록 조회 및 검색 조회까지-->
 	<select id="listAll" resultType="BoardVO">
+	<!--  회원권이 없는  게시글 목록 쿼리 -->
 		<!-- SELECT * FROM tbl_board -->
-		select bno, title,content, writer, regdate, viewcnt  from tbl_board 
+		select * from TBL_BOARD b, tbl_member m
 		<!-- where 절을 include 태그로 삽입 -->
 		<include refid="search"></include>
-		order by bno desc, regdate desc
+		order by bno desc, regdate desc 
 	</select>
 	<!--  01_02. 게시글 레코드 갯수 -->
 	<select id="countArticle" resultType="int">
-		select count(*) from tbl_board
+		select count(*) from tbl_board  b, tbl_member m
 		<!-- where 절을 include 태그로 삽입 -->
 		<include refid="search"></include>
 	</select>
@@ -24,13 +25,17 @@
 		<choose>
 			<!-- 검색옵션이 전체 검색일 경우 -->
 			<when test="searchOption == 'all'">
-				where writer like '%'||#{keyword}||'%'
+			where b.writer = m.userId
+			and
+				(userName like '%'||#{keyword}||'%'
 				or content like '%'||#{keyword}||'%'
-				or title like '%'||#{keyword}||'%'
+				or title like '%'||#{keyword}||'%' )
 			</when>
 			<!-- 전체 검색이 아닐 경우 -->
 			<otherwise>
-				where ${searchOption} like '%'||#{keyword}||'%'
+				where b.writer = m.userId 
+				and
+				${searchOption} like '%'||#{keyword}||'%'
 			</otherwise>
 		</choose>
 	</sql>

@@ -15,7 +15,7 @@
 			//var writer = document.form1.writer.value;
 			var title = $("#title").val();
 			var content = $("#content").val();
-			var writer = $("#writer").val();
+			/* var writer = $("#writer").val(); */
 			if(title == ""){
 				alert("제목을 입력하세요");
 				document.form1.title.focus();
@@ -26,11 +26,11 @@
 				document.form1.content.focus();
 				return ;
 			}
-			if(writer == ""){
+		/* 	if(writer == ""){
 				alert("이름을 입력하세요");
 				document.form1.writer.focus();
 				return ;
-			}
+			} */
 			// 폼에 입력한 데이터를 서버로 전송
 			document.form1.submit();
 		});
@@ -51,11 +51,11 @@
 		<textarea name="content" id="content" rows="8" cols="100" placeholder="내용을 입력해주세요"></textarea>
 		<p>
 	</div>
-	<div>
+	<!-- <div>
 		이름
 		<input name="writer" id="writer" placeholder="이름을 입력해주세요">
 		<p>
-	</div>
+	</div> -->
 	<div style="width:650px; text-align:center">
 		<input id="btnSave" type="submit"  value="확인" />
 		<input type="reset" value="취소" />

@@ -59,10 +59,12 @@
 		<!-- 게시물번호를 hidden 으로 처리 -->
 		 <input type="hidden" name="bno" value="${dto.bno}">
 		<!-- <input type="submit" id="btnUpdate" value="수정" /> -->
+		<c:if test="${sessionScope.userId == dto.writer }">
 		<button type="submit" data-oper='modify' class="btn btn-default">수정</button>
 		<button type="submit" data-oper='remove' class="btn btn-danger">삭제</button>
 		<button type="submit" data-oper='list' class="btn btn-default">목록으로</button>
 		
+		</c:if>
 	</div>
 </form>
 </body>

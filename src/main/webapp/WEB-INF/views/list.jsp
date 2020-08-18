@@ -16,7 +16,7 @@
 	$(document).ready(function(){
 		$("#btnWrite").click(function(){
 			//페이지 주소 변경(이동)
-			location.href = "${path}/write";
+			location.href = "write";
 		});
 	});
 </script>
@@ -28,17 +28,20 @@
 	<select name="searchOption">
 		<!-- 검색조건을 검색처리후 결과화면에 보여주기 위해 c:out 출력태그 사용, 삼항연산자 -->
 		<option value="value" <c:out value="${map.searchOption == 'all'?'selected':' ' }"></c:out>>제목+이름+제목</option>
-		<option value="writer" <c:out value="${map.searchOption == 'writer'?'selected':' ' }"></c:out>>이름</option>
+		<option value="userName" <c:out value="${map.searchOption == 'userName'?'selected':' ' }"></c:out>>이름</option>
 		<option value="content" <c:out value="${map.searchOption == 'content'?'selected':' ' }"></c:out>>내용</option>
 		<option value="title" <c:out value="${map.searchOption == 'title'?'selected':' ' }"></c:out>>제목</option>
 	</select>
 	<input name="keyword" value="${map.keyword }">
 	<input type="submit" value="조회">
 	
+	<!-- 로그인한 사용자만 글쓰기 버튼을 활성화 -->
+	<c:if test="${sessionScope.userId != null}">
+		<button type="button" id="btnWrite">글쓰기</button>
+	</c:if>
 </form>
 <!-- 레코드의 갯수를 출력 -->
 ${map.count }개의 게시물이 있습니다.
-<a href="write" textalign="left"><p>글쓰기</p></a>
 <table border="1" width="100%" >
 	
 	<tr>
@@ -53,7 +56,7 @@ ${map.count }개의 게시물이 있습니다.
 	<tr>
 		<td>${row.bno}</td>
 		<td><a href="view?bno=${row.bno}">${row.title}</a></td>
-		<td>${row.writer}</td>
+		<td>${row.userName}</td>
 		<td>
 			<!--  원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->
 			<fmt:formatDate value="${row.regdate}" pattern="yyyy-MM-dd HH:mm:ss" />
