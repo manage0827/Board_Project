@@ -45,7 +45,7 @@ public class BoardController {
 	 * list.jsp로 설정 mav.addObject("list", list); // 데이터를 저장 return mav; // list.jsp로
 	 * List가 전달된다. }
 	 */
-	@RequestMapping(value="/list")
+	@RequestMapping(value="list")
 	public String list(Model model, @RequestParam(defaultValue="title") String searchOption,
 						@RequestParam(defaultValue="") String keyword) throws Exception {
 		List<BoardVO> list = (List<BoardVO>)boardService.listAll(searchOption, keyword);
@@ -63,13 +63,13 @@ public class BoardController {
 	// 02_01. 게시글 작성화면
 	// @RequestMapping("board/write.do")
 	// value="", method="전송방식"
-	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	@RequestMapping(value = "write", method = RequestMethod.GET)
 	public String write() {
 		return "write"; // write.jsp로 이동
 	}
 
 	// 02_02. 게시글 작성처리
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "insert", method = RequestMethod.POST)
 	public String insert(@ModelAttribute BoardVO vo) throws Exception {
 		boardService.create(vo);
 		return "redirect:list";
@@ -78,7 +78,7 @@ public class BoardController {
 	// 03. 게시글 상세내용 조회, 게시글 조회수 증가 처리
 	// @RequestParam : get/post 방식으로 전달된 변수 1개
 	// HttpSession 세션객체
-	@RequestMapping(value = "/view")
+	@RequestMapping(value = "view")
 	public ModelAndView view(int bno) throws Exception {
 		boardService.increaseViewcnt(bno); 
 		// 모델(데이터)+뷰(화면)를 함께 전달하는 객체
@@ -92,17 +92,17 @@ public class BoardController {
 
 	// 04. 게시글 수정
 	// 폼에서 입력한 내용들은 @ModelAttribute BoardVO vo로 전달됨
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String update(@ModelAttribute BoardVO vo) throws Exception {
 		boardService.update(vo);
 		return "redirect:list";
 	}
 
 	// 05. 게시글 삭제
-	@RequestMapping(value="/delete", method= RequestMethod.POST)
+	@RequestMapping(value="delete", method= RequestMethod.POST)
 	public String delete(@ModelAttribute BoardVO vo) throws Exception {
 		boardService.delete(vo.getBno());
-		return "list";
+		return "redirect:list";
 	}
 	
 	

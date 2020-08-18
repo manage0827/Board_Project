@@ -49,7 +49,7 @@ ${map.count }개의 게시물이 있습니다.
 		<th>조회수</th>
 	</tr>
 	
-	<c:forEach var="row" items="${list }">
+	<c:forEach var="row" items="${list}">
 	<tr>
 		<td>${row.bno}</td>
 		<td><a href="view?bno=${row.bno}">${row.title}</a></td>
