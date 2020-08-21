@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0 // EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper 와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="reply">
+	
+	<!-- 댓글 입력 -->
+	<insert id="insertReply">
+		insert into tbl_reply(rno, bno, replytext, replyer, secretReply)
+		values (tbl_reply_seq.NEXTVAL, #{bno}, #{replytext}, #{replyer}, #{secretReply})
+	</insert>
+	
+	<!-- 댓글 목록 -->
+	<select id="listReply" resultType="ReplyVO">
+		<!-- select rno, bno, replytext, replyer, m.userName, r.regdate, r.updatedate
+		from tbl_reply r, tbl_member m
+		where r.replyer = m.userId and bno=#{bno}
+		order by rno
+		 -->
+		 
+		 <include refid="pagingHeader" />
+		select 
+		r.rno, r.bno, r.replytext, r.replyer, r.secretReply, r.regdate, r.updatedate, m.userName,
+						(select writer from tbl_board where bno = r.bno) as writer
+					from tbl_reply r, tbl_member m
+		where r.replyer = m.userId
+		and r.bno = #{bno}
+		order by rno
+		<include refid="pagingFooter" />
+	</select>
+	
+	
+	<!--  댓글 갯수 페이징 처리 -->
+	<select id="countReply" resultType="int">
+		select count(*) from tbl_reply where bno=#{bno}
+	</select>
+	
+	<!-- 페이징 sql -->
+	<sql id="pagingHeader">
+		select * from (select rownum as rn, A.* from(
+	</sql>
+	
+	<sql id="pagingFooter">
+		) A ) where rn between #{start} and #{end}
+	</sql>
+</mapper>

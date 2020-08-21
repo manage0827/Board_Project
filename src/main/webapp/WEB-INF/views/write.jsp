@@ -60,6 +60,8 @@
 		<input id="btnSave" type="submit"  value="확인" />
 		<input type="reset" value="취소" />
 		</div>
+		
+		
 </form>
 </body>
 </html>

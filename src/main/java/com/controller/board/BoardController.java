@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,16 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.model.board.dao.BoardDAOImp1;
 import com.model.board.dto.BoardVO;
-import com.service.board.BoardService;
+import com.service.board.BoardPager;
 import com.service.board.BoardServiceImp1;
 
 @Controller // 현재클래스를 컨트롤러 bean으로 등록
@@ -45,17 +42,27 @@ public class BoardController {
 	 * list.jsp로 설정 mav.addObject("list", list); // 데이터를 저장 return mav; // list.jsp로
 	 * List가 전달된다. }
 	 */
-	@RequestMapping(value="list")
-	public String list(Model model, @RequestParam(defaultValue="title") String searchOption,
-						@RequestParam(defaultValue="") String keyword) throws Exception {
-		List<BoardVO> list = (List<BoardVO>)boardService.listAll(searchOption, keyword);
-		model.addAttribute("list", list);
+	@RequestMapping(value = "list")
+	public String list(Model model, @RequestParam(defaultValue = "title") String searchOption,
+			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") int curPage)
+			throws Exception {
+
+		// 레코드의 갯수 계산
 		int count = boardService.countArticle(searchOption, keyword);
+		// 페이지 나누기 관련처리
+		BoardPager boardPager = new BoardPager(count, curPage);
+		int start = boardPager.getPageBegin();
+		int end = boardPager.getPageEnd();
+
+		List<BoardVO> list = boardService.listAll(start, end, searchOption, keyword);
+		// 데이터를 맵에 저장
+		model.addAttribute("list", list);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list); //list
-		map.put("count", count); //레코드의 갯수
+		map.put("list", list); // list
+		map.put("count", count); // 레코드의 갯수
 		map.put("searchOption", searchOption); // 검색옵션
-		map.put("keyword", keyword); //검색키워드
+		map.put("keyword", keyword); // 검색키워드
+		map.put("boardPager", boardPager);
 		model.addAttribute("map", map); // 맵에 저장된 데이터를 저장
 		return "list"; // list.jsp로 List가 전달된다.
 	}
@@ -73,6 +80,7 @@ public class BoardController {
 	public String insert(@ModelAttribute BoardVO vo, HttpSession session) throws Exception {
 		// session에 저장된 userId를 writer에 저장
 		String writer = (String) session.getAttribute("userId");
+		System.out.println(writer);
 		// vo 에 writer를 세팅
 		vo.setWriter(writer);
 		boardService.create(vo);
@@ -84,7 +92,7 @@ public class BoardController {
 	// HttpSession 세션객체
 	@RequestMapping(value = "view")
 	public ModelAndView view(int bno) throws Exception {
-		boardService.increaseViewcnt(bno); 
+		boardService.increaseViewcnt(bno);
 		// 모델(데이터)+뷰(화면)를 함께 전달하는 객체
 		ModelAndView mav = new ModelAndView();
 		// 뷰의 이름
@@ -103,12 +111,10 @@ public class BoardController {
 	}
 
 	// 05. 게시글 삭제
-	@RequestMapping(value="delete", method= RequestMethod.POST)
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	public String delete(@ModelAttribute BoardVO vo) throws Exception {
 		boardService.delete(vo.getBno());
 		return "redirect:list";
 	}
-	
-	
 
 }

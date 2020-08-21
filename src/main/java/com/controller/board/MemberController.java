@@ -42,7 +42,7 @@ public class MemberController {
 			 */
 			model.addAttribute("msg", "failure");
 		}
-		return "login";
+		return "home";
 	}
 	
 	// 03. 로그아웃 처리

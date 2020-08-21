@@ -7,16 +7,23 @@
 	<select id="listAll" resultType="BoardVO">
 	<!--  회원권이 없는  게시글 목록 쿼리 -->
 		<!-- SELECT * FROM tbl_board -->
-		select * from TBL_BOARD b, tbl_member m
+		<include refid="pagingHeader"></include>
+		<!-- select rownum, * from TBL_BOARD b, tbl_member m-->
+		select rownum, bno, title, b.regdate, viewcnt, m.userName, 
+		<!--댓글 숫자 표시  -->		
+		(select count(*) from tbl_reply where bno=b.bno) as recnt
+		from tbl_board b, tbl_member m
+		
 		<!-- where 절을 include 태그로 삽입 -->
 		<include refid="search"></include>
 		order by bno desc, regdate desc 
+		<include refid="pagingFooter"></include>
 	</select>
 	<!--  01_02. 게시글 레코드 갯수 -->
 	<select id="countArticle" resultType="int">
-		select count(*) from tbl_board  b, tbl_member m
+		select count(*) from tbl_board  b
 		<!-- where 절을 include 태그로 삽입 -->
-		<include refid="search"></include>
+		<!-- <include refid="search"></include> -->
 	</select>
 	
 	<!-- sql code 조각 -->
@@ -29,7 +36,7 @@
 			and
 				(userName like '%'||#{keyword}||'%'
 				or content like '%'||#{keyword}||'%'
-				or title like '%'||#{keyword}||'%' )
+				or title like '%'||#{keyword}||'%')
 			</when>
 			<!-- 전체 검색이 아닐 경우 -->
 			<otherwise>
@@ -39,9 +46,18 @@
 			</otherwise>
 		</choose>
 	</sql>
+	
+	<!-- 페이징 sql -->
+	<sql id="pagingHeader">
+		select * from (select rownum as rn, a.* from (
+	</sql>
+	<sql id ="pagingFooter">
+		) A ) where rn between #{start} and #{end}
+	</sql>
 	<!-- 02. 게시글 작성 -->
 	<insert id="insertTest" parameterType="com.model.board.dto.BoardVO">
-		insert into tbl_board(bno,title,content,writer) values(tbl_board_seq.NEXTVAL,#{title},#{content},#{writer})
+		insert into tbl_board(bno,title,content,writer) 
+		values(tbl_board_seq.NEXTVAL,#{title},#{content},#{writer})
 	</insert>
 	<!--  03. 게시글 상세보기 조회 -->
 	<select id="view" resultType="com.model.board.dto.BoardVO">
