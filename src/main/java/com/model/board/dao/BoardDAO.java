@@ -1,6 +1,7 @@
 package com.model.board.dao;
 
 import java.util.List;
+
 import com.model.board.dto.BoardVO;
 
 public interface BoardDAO {

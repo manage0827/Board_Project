@@ -52,7 +52,7 @@ from (select rownum as rn, A.*
 		insert into tbl_member(userId, userPw, userName) values ('admi', 'admi','admi')
 		
 		
-		
+		select * from tbl_reply
 	create table tbl_reply(
 	rno number,
 	bno number,
@@ -79,3 +79,16 @@ from (select rownum as rn, A.*
 		select rownum, bno, title, b.regdate, viewcnt, m.userName,
 		(select secretReply from tbl_reply where bno=b.bno) as recnt
 		from tbl_board b, tbl_member m
+		
+		
+		
+		
+		select * from (select rownum as rn, A.* from(
+		select 
+		r.rno, r.bno, r.replytext, r.replyer, r.secretReply, r.regdate, r.updatedate, m.userName,
+						(select writer from tbl_board where bno = r.bno) as writer
+					from tbl_reply r, tbl_member m
+		where r.replyer = m.userId
+		and r.bno = 164
+		order by rno 
+		) A ) where rn between 1 and 10

@@ -2,8 +2,6 @@ package com.service.board;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-import com.model.board.dao.BoardDAO;
 import com.model.board.dto.BoardVO;
 
 public interface BoardService {

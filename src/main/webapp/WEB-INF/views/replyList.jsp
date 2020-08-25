@@ -17,6 +17,7 @@
 				${row.userName}(<fmt:formatDate value="${row.regdate}" pattern="yyyy-MM-dd HH:mm:ss"/>)
 				<br>
 				${row.replytext }
+				<hr>
 				</td>
 			</tr>
 		</c:forEach>
@@ -50,6 +51,8 @@
 			<c:if test="${replyPager.curBlock <= replyPager.totBlock }">
 				<a href="javascript:listReply('${replyPager.totPage}')">[끝]</a>
 			</c:if>
+			</td>
+		</tr>
 	
 	</table>
 </body>

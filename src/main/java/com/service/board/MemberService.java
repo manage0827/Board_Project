@@ -1,6 +1,7 @@
 package com.service.board;
 
 import javax.servlet.http.HttpSession;
+
 import com.model.board.dto.MemberVO;
 public interface MemberService {
 	// 01_01. 회원 로그인 체크

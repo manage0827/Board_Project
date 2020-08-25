@@ -19,6 +19,7 @@
 		 -->
 		 
 		 <include refid="pagingHeader" />
+		 
 		select 
 		r.rno, r.bno, r.replytext, r.replyer, r.secretReply, r.regdate, r.updatedate, m.userName,
 						(select writer from tbl_board where bno = r.bno) as writer

@@ -2,13 +2,9 @@ package com.service.board;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.model.board.dao.BoardDAO;
 import com.model.board.dao.BoardDAOImp1;
 import com.model.board.dto.BoardVO;
 

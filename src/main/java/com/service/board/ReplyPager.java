@@ -18,7 +18,7 @@ public class ReplyPager {
 		private int pageEnd; // #${end}
 		// [이전] blcokBegin -> 41 42 43 44 45 46 47 48 49 50 [다음]
 		private int blockBegin;
-		// [이전] blcokBegin -> 41 42 43 44 45 46 47 48 49 50 <- blockEnd [다음]
+		// [이전] blcokEnd -> 41 42 43 44 45 46 47 48 49 50 <- blockEnd [다음]
 		private int blockEnd;
 		
 		// 생성자

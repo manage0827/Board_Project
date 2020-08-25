@@ -19,6 +19,7 @@ public class ReplyServiceImp1 implements ReplyService{
 	@Override
 	public List<ReplyVO> list(Integer bno, int start, int end, HttpSession session) {
 		List<ReplyVO> items = replyDao.list(bno ,start, end);
+		
 	String userId = (String) session.getAttribute("userId");
 	for(ReplyVO vo : items) {
 		// 댓글 목록중에 비밀 댓글이 있을 경우
@@ -35,6 +36,7 @@ public class ReplyServiceImp1 implements ReplyService{
 			}
 		}
 	}
+	System.out.println(items.toString());
 	return items;
 	}
 	// 댓글 작성

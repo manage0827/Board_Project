@@ -91,12 +91,13 @@ public class BoardController {
 	// @RequestParam : get/post 방식으로 전달된 변수 1개
 	// HttpSession 세션객체
 	@RequestMapping(value = "view")
-	public ModelAndView view(int bno) throws Exception {
+	public ModelAndView view(int bno, int curPage) throws Exception {
 		boardService.increaseViewcnt(bno);
 		// 모델(데이터)+뷰(화면)를 함께 전달하는 객체
 		ModelAndView mav = new ModelAndView();
 		// 뷰의 이름
 		mav.setViewName("/view");
+		mav.addObject("curPage", curPage);
 		// 뷰에 전달할 데이터
 		mav.addObject("dto", boardService.read(bno));
 		return mav;

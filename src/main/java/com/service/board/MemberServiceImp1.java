@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.board.dao.MemberDAOImp1;
-
 import com.model.board.dto.MemberVO;
 
 @Service
